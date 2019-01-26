@@ -35,14 +35,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->width->setValue(3);
     ui->width->setMaximum(800);
 
-    //Important to keep at end of constructor.
-    //Variable to show that all parts are loaded an programm is operational
-    status_update("Init done. init = 1. Program nominal");
-    init = 1;
     status_update("Painting factor x: " + std::to_string(factor_width)+ " y: " + std::to_string(factor_height));
     factor_width = 20;
     factor_height = factor_width;
 
+    //Important to keep at end of constructor.
+    //Variable to show that all parts are loaded an programm is operational
+    status_update("Init done. init = 1. Program nominal");
+    init = 1;
 }
 
 MainWindow::~MainWindow()
@@ -130,6 +130,12 @@ void MainWindow::repaint_canvas()
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
     //thanks grg
+    //TO DO
+    //Change canvas_label dimensions so that factor * fixed box (e.g. 10px) doesnt produce
+    //a rounding error or ugly mishap
+    //Check if each tile has value <= 1.0 so that no tile has a value > 1.0
+    //Check if a tile with value = 1.0 is allowed to be clicked again, so that the adjacent neighbours
+    //are in creased
     QString x_str = QString::number(ev->x());
     QString y_str = QString::number(ev->y());
     int x = x_str.toInt();
