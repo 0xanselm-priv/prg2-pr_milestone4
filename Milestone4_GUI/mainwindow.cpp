@@ -127,16 +127,6 @@ void MainWindow::repaint_canvas()
     ui->canvas_label->setPixmap(pixmap);
 }
 
-void MainWindow::pixel_painter()
-{
-    std::string temp = __FUNCTION__;
-    try {
-        input_matrix[0][0] = 0.25;
-    } catch (const std::out_of_range) {
-        std::cout << "Idiot"; // information from length_error printed
-    }
-}
-
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
     //thanks grg
@@ -193,7 +183,6 @@ void MainWindow::on_height_valueChanged(int arg1)
         this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value()));
         this->print_matrix();
         repaint_canvas();
-        pixel_painter();
     }
 }
 

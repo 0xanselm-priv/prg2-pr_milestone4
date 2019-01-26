@@ -80,6 +80,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_height_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->on_width_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        //case 2: _t->on_canvas_label_linkActivated((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     }

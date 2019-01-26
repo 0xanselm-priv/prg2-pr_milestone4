@@ -33,7 +33,6 @@ private:
     void print_matrix();
     void fill_matrix();
     void repaint_canvas();
-    void pixel_painter();
 
 protected:
     void mousePressEvent(QMouseEvent* ev);
