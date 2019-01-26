@@ -52,7 +52,7 @@ public:
         status_text->setGeometry(QRect(10, 270, 211, 101));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(260, 60, 121, 131));
+        groupBox->setGeometry(QRect(290, 120, 121, 131));
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
