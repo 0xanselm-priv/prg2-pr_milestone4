@@ -14,6 +14,7 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextEdit>
@@ -34,13 +35,16 @@ public:
     QSpinBox *height;
     QLabel *label_2;
     QSpinBox *width;
+    QPushButton *reset_button;
+    QPushButton *train_button;
+    QPushButton *test_button;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(430, 396);
+        MainWindow->resize(430, 424);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         canvas_label = new QLabel(centralWidget);
@@ -52,7 +56,7 @@ public:
         status_text->setGeometry(QRect(10, 270, 211, 101));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(290, 120, 121, 131));
+        groupBox->setGeometry(QRect(230, 20, 121, 131));
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -77,6 +81,15 @@ public:
 
         verticalLayout->addWidget(width);
 
+        reset_button = new QPushButton(centralWidget);
+        reset_button->setObjectName(QString::fromUtf8("reset_button"));
+        reset_button->setGeometry(QRect(20, 380, 80, 21));
+        train_button = new QPushButton(centralWidget);
+        train_button->setObjectName(QString::fromUtf8("train_button"));
+        train_button->setGeometry(QRect(160, 380, 80, 21));
+        test_button = new QPushButton(centralWidget);
+        test_button->setObjectName(QString::fromUtf8("test_button"));
+        test_button->setGeometry(QRect(330, 380, 80, 21));
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -94,6 +107,9 @@ public:
         groupBox->setTitle(QApplication::translate("MainWindow", "Canvas Dimension:", nullptr));
         label->setText(QApplication::translate("MainWindow", "m Dimension:", nullptr));
         label_2->setText(QApplication::translate("MainWindow", "n Dimension:", nullptr));
+        reset_button->setText(QApplication::translate("MainWindow", "Reset", nullptr));
+        train_button->setText(QApplication::translate("MainWindow", "Train NN", nullptr));
+        test_button->setText(QApplication::translate("MainWindow", "Test NN", nullptr));
     } // retranslateUi
 
 };

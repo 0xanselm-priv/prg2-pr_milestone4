@@ -20,6 +20,10 @@ private slots:
 
     void on_width_valueChanged(int arg1);
 
+    void on_test_button_clicked();
+
+    void on_reset_button_clicked();
+
 private:
     int init;
     int factor_width;
@@ -37,6 +41,7 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent* ev);
+    void mouseMoveEvent(QMouseEvent* ev);
 };
 
 #endif // MAINWINDOW_H

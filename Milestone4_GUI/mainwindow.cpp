@@ -65,11 +65,11 @@ void MainWindow::status_update(std::string status)
 void MainWindow::print_matrix()
 {
     //testing purposes. Could show a picture
-    qDebug() << "++here" << input_matrix.size() << " " << input_matrix[0].size();
+    qDebug() << "++Matrix Dim: " << input_matrix.size() << " " << input_matrix[0].size();
     //fill_matrix();
     for (int i = 0; i < input_matrix.size(); i++){
         for (int j = 0; j < input_matrix[i].size(); j++) {
-            std::cout << input_matrix[i][j];
+            std::cout << "[" << input_matrix[i][j]<< "]";
         }
         std::cout << "" << std::endl;
     }
@@ -108,7 +108,7 @@ void MainWindow::repaint_canvas()
         for (auto j = 0; j < input_matrix[i].size(); j++) {
 
             if (input_matrix[i][j] == 0.0) {
-                painter.setBrush(Qt::green);
+                painter.setBrush(Qt::black);
                 painter.drawRect(i*factor_width, j*factor_height, factor_width, factor_height);
             } else if (input_matrix[i][j] == 0.25) {
                 painter.setBrush(Qt::darkGray);
@@ -131,8 +131,9 @@ void MainWindow::repaint_canvas()
 
 std::vector<std::vector<float> > MainWindow::matrix_multiplyer()
 {
-    scaled_input_matrix.clear();
-    scaled_input_matrix.resize(input_matrix.size(), input_matrix[0].size());
+    //scaled_input_matrix.clear();
+    //scaled_input_matrix.resize(input_matrix.size(),  std::vector<float> (input_matrix[0].size()));
+    scaled_input_matrix = input_matrix;
     for (int i = 0; i < input_matrix.size(); i++) {
         for (int j = 0; j < input_matrix[0].size(); j++) {
 
@@ -143,13 +144,63 @@ std::vector<std::vector<float> > MainWindow::matrix_multiplyer()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    //thanks grg
-    //TO DO
-    //Change canvas_label dimensions so that factor * fixed box (e.g. 10px) doesnt produce
-    //a rounding error or ugly mishap
-    //DONE: Check if each tile has value <= 1.0 so that no tile has a value > 1.0
-    //Check if a tile with value = 1.0 is allowed to be clicked again, so that the adjacent neighbours
-    //are in creased
+        //thanks grg
+        //TO DO
+        //Change canvas_label dimensions so that factor * fixed box (e.g. 10px) doesnt produce
+        //a rounding error or ugly mishap
+        //Check if each tile has value <= 1.0 so that no tile has a value > 1.0
+        //DONE: Check if a tile with value = 1.0 is allowed to be clicked again, so that the adjacent neighbours
+        //are in creased
+        if (ev->button() == Qt::LeftButton) {
+            QString x_str = QString::number(ev->x());
+            QString y_str = QString::number(ev->y());
+            int x = x_str.toInt();
+            int y = y_str.toInt();
+            if (x < ui->canvas_label->width() && y < ui->canvas_label->height()) {
+                int tile_width = std::floor(x / factor_width);
+                int tile_height = std::floor(y / factor_height);
+                int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
+                int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+
+                std::string temp = __FUNCTION__;
+                temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
+                status_update(temp);
+
+                //assign clicked tile to matrix
+                if (input_matrix[tile_width][tile_height] < 1.0) {
+                    input_matrix[tile_width][tile_height] = 1.0;
+                    //North
+                    if (tile_height > 0 && input_matrix[tile_width][tile_height-1] < 1.0) {
+                        input_matrix[tile_width][tile_height-1] = input_matrix[tile_width][tile_height-1] + 0.25;
+                    }
+
+                    //East
+                    if (tile_width < tile_n_max-1 && input_matrix[tile_width+1][tile_height] < 1.0) {
+                        input_matrix[tile_width+1][tile_height] = input_matrix[tile_width+1][tile_height] + 0.25;
+                    }
+
+                    //South
+                    if (tile_height < tile_m_max-1 && input_matrix[tile_width][tile_height+1] < 1.0) {
+                        input_matrix[tile_width][tile_height+1] = input_matrix[tile_width][tile_height+1] + 0.25;
+                    }
+
+                    //West
+                    if (tile_width > 0 && input_matrix[tile_width-1][tile_height] < 1.0) {
+                        input_matrix[tile_width-1][tile_height] = input_matrix[tile_width-1][tile_height] + 0.25;
+                    }
+                }
+
+                print_matrix();
+                repaint_canvas();
+
+            }
+        }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *ev)
+{
+    //qDebug() << "Move: " << ev->pos();
+
     QString x_str = QString::number(ev->x());
     QString y_str = QString::number(ev->y());
     int x = x_str.toInt();
@@ -168,30 +219,32 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         if (input_matrix[tile_width][tile_height] < 1.0) {
             input_matrix[tile_width][tile_height] = 1.0;
             //North
-            if (tile_height > 0) {
+            if (tile_height > 0 && input_matrix[tile_width][tile_height-1] < 1.0) {
                 input_matrix[tile_width][tile_height-1] = input_matrix[tile_width][tile_height-1] + 0.25;
             }
 
             //East
-            if (tile_width < tile_n_max-1) {
-                qDebug() << "tile_width:" << tile_width << "tile_n:" << tile_n_max;
+            if (tile_width < tile_n_max-1 && input_matrix[tile_width+1][tile_height] < 1.0) {
                 input_matrix[tile_width+1][tile_height] = input_matrix[tile_width+1][tile_height] + 0.25;
             }
 
             //South
-            if (tile_height < tile_m_max-1) {
+            if (tile_height < tile_m_max-1 && input_matrix[tile_width][tile_height+1] < 1.0) {
                 input_matrix[tile_width][tile_height+1] = input_matrix[tile_width][tile_height+1] + 0.25;
             }
 
             //West
-            if (tile_width > 0) {
+            if (tile_width > 0 && input_matrix[tile_width-1][tile_height] < 1.0) {
                 input_matrix[tile_width-1][tile_height] = input_matrix[tile_width-1][tile_height] + 0.25;
             }
         }
 
         print_matrix();
         repaint_canvas();
+
+
     }
+
 }
 
 
@@ -220,4 +273,21 @@ void MainWindow::on_width_valueChanged(int arg1)
         repaint_canvas();
         ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
     }
+}
+
+void MainWindow::on_test_button_clicked()
+{
+    //TODO: Make sure to check input dim
+}
+
+void MainWindow::on_reset_button_clicked()
+{
+    init = 0;
+    this->status_update(__TIMESTAMP__);
+    this->status_update(__FUNCTION__);
+    ui->height->setValue(28);
+    ui->width->setValue(28);
+    init = 1;
+    this->on_height_valueChanged(0);
+    this->on_width_valueChanged(0);
 }
