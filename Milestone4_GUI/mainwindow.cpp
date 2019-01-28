@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     factor_width = 20;
     factor_height = factor_width;
 
+    is_trained = 0;
+
     //Important to keep at end of constructor.
     //Variable to show that all parts are loaded an programm is operational
     status_update("Init done. init = 1. Program nominal");
@@ -106,7 +108,7 @@ void MainWindow::repaint_canvas()
         for (auto j = 0; j < input_matrix[i].size(); j++) {
 
             if (input_matrix[i][j] == 0.0) {
-                painter.setBrush(Qt::black);
+                painter.setBrush(Qt::green);
                 painter.drawRect(i*factor_width, j*factor_height, factor_width, factor_height);
             } else if (input_matrix[i][j] == 0.25) {
                 painter.setBrush(Qt::darkGray);
@@ -127,13 +129,25 @@ void MainWindow::repaint_canvas()
     ui->canvas_label->setPixmap(pixmap);
 }
 
+std::vector<std::vector<float> > MainWindow::matrix_multiplyer()
+{
+    scaled_input_matrix.clear();
+    scaled_input_matrix.resize(input_matrix.size(), input_matrix[0].size());
+    for (int i = 0; i < input_matrix.size(); i++) {
+        for (int j = 0; j < input_matrix[0].size(); j++) {
+
+        }
+
+    }
+}
+
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
     //thanks grg
     //TO DO
     //Change canvas_label dimensions so that factor * fixed box (e.g. 10px) doesnt produce
     //a rounding error or ugly mishap
-    //Check if each tile has value <= 1.0 so that no tile has a value > 1.0
+    //DONE: Check if each tile has value <= 1.0 so that no tile has a value > 1.0
     //Check if a tile with value = 1.0 is allowed to be clicked again, so that the adjacent neighbours
     //are in creased
     QString x_str = QString::number(ev->x());
@@ -151,27 +165,28 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         status_update(temp);
 
         //assign clicked tile to matrix
+        if (input_matrix[tile_width][tile_height] < 1.0) {
+            input_matrix[tile_width][tile_height] = 1.0;
+            //North
+            if (tile_height > 0) {
+                input_matrix[tile_width][tile_height-1] = input_matrix[tile_width][tile_height-1] + 0.25;
+            }
 
-        input_matrix[tile_width][tile_height] = 1.0;
-        //North
-        if (tile_height > 0) {
-            input_matrix[tile_width][tile_height-1] = input_matrix[tile_width][tile_height-1] + 0.25;
-        }
+            //East
+            if (tile_width < tile_n_max-1) {
+                qDebug() << "tile_width:" << tile_width << "tile_n:" << tile_n_max;
+                input_matrix[tile_width+1][tile_height] = input_matrix[tile_width+1][tile_height] + 0.25;
+            }
 
-        //East
-        if (tile_width < tile_n_max-1) {
-            qDebug() << "tile_width:" << tile_width << "tile_n:" << tile_n_max;
-            input_matrix[tile_width+1][tile_height] = input_matrix[tile_width+1][tile_height] + 0.25;
-        }
+            //South
+            if (tile_height < tile_m_max-1) {
+                input_matrix[tile_width][tile_height+1] = input_matrix[tile_width][tile_height+1] + 0.25;
+            }
 
-        //South
-        if (tile_height < tile_m_max-1) {
-            input_matrix[tile_width][tile_height+1] = input_matrix[tile_width][tile_height+1] + 0.25;
-        }
-
-        //West
-        if (tile_width > 0) {
-            input_matrix[tile_width-1][tile_height] = input_matrix[tile_width-1][tile_height] + 0.25;
+            //West
+            if (tile_width > 0) {
+                input_matrix[tile_width-1][tile_height] = input_matrix[tile_width-1][tile_height] + 0.25;
+            }
         }
 
         print_matrix();
@@ -189,6 +204,8 @@ void MainWindow::on_height_valueChanged(int arg1)
         this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value()));
         this->print_matrix();
         repaint_canvas();
+        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
+
     }
 }
 
@@ -201,5 +218,6 @@ void MainWindow::on_width_valueChanged(int arg1)
         this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value()));
         this->print_matrix();
         repaint_canvas();
+        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
     }
 }
