@@ -200,7 +200,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 {
     //qDebug() << "Move: " << ev->pos();
-
+    qDebug() << ui->canvas_label->geometry().contains(ev->pos());
     QString x_str = QString::number(ev->x());
     QString y_str = QString::number(ev->y());
     int x = x_str.toInt();
@@ -242,7 +242,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
         print_matrix();
         repaint_canvas();
 
-
     }
 
 }
@@ -283,6 +282,7 @@ void MainWindow::on_test_button_clicked()
 void MainWindow::on_reset_button_clicked()
 {
     init = 0;
+    ui->status_text->clear();
     this->status_update(__TIMESTAMP__);
     this->status_update(__FUNCTION__);
     ui->height->setValue(28);
