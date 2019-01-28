@@ -24,6 +24,10 @@ private slots:
 
     void on_reset_button_clicked();
 
+    void on_train_button_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     int init;
     int factor_width;

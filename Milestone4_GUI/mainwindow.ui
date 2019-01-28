@@ -105,13 +105,13 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>450</y>
+      <y>410</y>
       <width>80</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Test NN</string>
+     <string>Test Single NN</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="log_matrix_checkbox">
@@ -125,6 +125,19 @@
     </property>
     <property name="text">
      <string>Log Program</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>440</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test Batch NN</string>
     </property>
    </widget>
   </widget>

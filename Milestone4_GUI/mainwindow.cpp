@@ -155,6 +155,7 @@ void MainWindow::assign_clicked_tile(std::pair<int, int> item)
     int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
     int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
 
+    //Middle
     if (input_matrix[tile_width][tile_height] < 1.0) {
         input_matrix[tile_width][tile_height] = 1.0;
         //North
@@ -210,8 +211,6 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
                 temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
                 status_update(temp);
             }
-
-
             //assign clicked tile to matrix
             assign_clicked_tile(std::make_pair(tile_width, tile_height));
         }
@@ -220,32 +219,32 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 {
-    QString x_str = QString::number(ev->x());
-    QString y_str = QString::number(ev->y());
-    int x = x_str.toInt();
-    int y = y_str.toInt();
-    if (ui->canvas_label->geometry().contains(ev->pos())) {
-        int tile_width = std::floor(x / factor_width);
-        int tile_height = std::floor(y / factor_height);
-        int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
-        int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+        QString x_str = QString::number(ev->x());
+        QString y_str = QString::number(ev->y());
+        int x = x_str.toInt();
+        int y = y_str.toInt();
+        if (ui->canvas_label->geometry().contains(ev->pos())) {
+            int tile_width = std::floor(x / factor_width);
+            int tile_height = std::floor(y / factor_height);
+            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
+            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
 
-        if (ui->log_matrix_checkbox->isChecked()) {
-            std::string temp = __FUNCTION__;
-            temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
-            status_update(temp);
+            if (ui->log_matrix_checkbox->isChecked()) {
+                std::string temp = __FUNCTION__;
+                temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
+                status_update(temp);
+            }
+
+            //assign clicked tile to matrix
+            assign_clicked_tile(std::make_pair(tile_width, tile_height));
         }
-
-        //assign clicked tile to matrix
-        assign_clicked_tile(std::make_pair(tile_width, tile_height));
-    }
-
 }
 
 
 void MainWindow::on_height_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
+    //TO DO: Find the sizing error.
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -255,13 +254,13 @@ void MainWindow::on_height_valueChanged(int arg1)
         }
         repaint_canvas();
         ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
-
     }
 }
 
 void MainWindow::on_width_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
+    //TO DO: Find the sizing error.
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -277,6 +276,9 @@ void MainWindow::on_width_valueChanged(int arg1)
 void MainWindow::on_test_button_clicked()
 {
     //TODO: Make sure to check input dim
+    //take image from canvas
+    //test input dim
+    //give values as
 }
 
 void MainWindow::on_reset_button_clicked()
@@ -290,4 +292,17 @@ void MainWindow::on_reset_button_clicked()
     init = 1;
     this->on_height_valueChanged(0);
     this->on_width_valueChanged(0);
+}
+
+void MainWindow::on_train_button_clicked()
+{
+    // Open file dialog
+    // train -> filepath
+    // training in progress . threading
+    // training done
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    // file open dialog
 }
