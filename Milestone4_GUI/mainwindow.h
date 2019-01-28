@@ -31,13 +31,15 @@ private:
     int is_trained;
     std::vector< std::vector<float> > input_matrix;
     std::vector< std::vector<float> > scaled_input_matrix;
+    std::map<int, int> tile_map;
 
     Ui::MainWindow *ui;
     void status_update(std::string status);
     void print_matrix();
     void fill_matrix();
     void repaint_canvas();
-    std::vector< std::vector<float> > matrix_multiplyer();
+    void matrix_updater(std::pair<int, int> item);
+    void assign_clicked_tile(std::pair<int, int> item);
 
 protected:
     void mousePressEvent(QMouseEvent* ev);

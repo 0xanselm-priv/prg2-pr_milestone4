@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>424</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>221</width>
-      <height>261</height>
+      <width>281</width>
+      <height>301</height>
      </rect>
     </property>
     <property name="text">
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>320</y>
       <width>211</width>
       <height>101</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>20</y>
+      <x>300</x>
+      <y>50</y>
       <width>121</width>
       <height>131</height>
      </rect>
@@ -78,8 +78,8 @@
    <widget class="QPushButton" name="reset_button">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>380</y>
+      <x>10</x>
+      <y>450</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -91,8 +91,8 @@
    <widget class="QPushButton" name="train_button">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>380</y>
+      <x>150</x>
+      <y>450</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -104,14 +104,27 @@
    <widget class="QPushButton" name="test_button">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>380</y>
+      <x>320</x>
+      <y>450</y>
       <width>80</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>Test NN</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="log_matrix_checkbox">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>10</y>
+      <width>131</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Log Program</string>
     </property>
    </widget>
   </widget>

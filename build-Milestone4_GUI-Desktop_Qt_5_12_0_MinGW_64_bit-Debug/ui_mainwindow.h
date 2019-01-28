@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -38,25 +39,26 @@ public:
     QPushButton *reset_button;
     QPushButton *train_button;
     QPushButton *test_button;
+    QCheckBox *log_matrix_checkbox;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(430, 424);
+        MainWindow->resize(430, 504);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         canvas_label = new QLabel(centralWidget);
         canvas_label->setObjectName(QString::fromUtf8("canvas_label"));
-        canvas_label->setGeometry(QRect(0, 0, 221, 261));
+        canvas_label->setGeometry(QRect(0, 0, 281, 301));
         status_text = new QTextEdit(centralWidget);
         status_text->setObjectName(QString::fromUtf8("status_text"));
         status_text->setEnabled(true);
-        status_text->setGeometry(QRect(10, 270, 211, 101));
+        status_text->setGeometry(QRect(10, 320, 211, 101));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(230, 20, 121, 131));
+        groupBox->setGeometry(QRect(300, 50, 121, 131));
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -83,13 +85,16 @@ public:
 
         reset_button = new QPushButton(centralWidget);
         reset_button->setObjectName(QString::fromUtf8("reset_button"));
-        reset_button->setGeometry(QRect(20, 380, 80, 21));
+        reset_button->setGeometry(QRect(10, 450, 80, 21));
         train_button = new QPushButton(centralWidget);
         train_button->setObjectName(QString::fromUtf8("train_button"));
-        train_button->setGeometry(QRect(160, 380, 80, 21));
+        train_button->setGeometry(QRect(150, 450, 80, 21));
         test_button = new QPushButton(centralWidget);
         test_button->setObjectName(QString::fromUtf8("test_button"));
-        test_button->setGeometry(QRect(330, 380, 80, 21));
+        test_button->setGeometry(QRect(320, 450, 80, 21));
+        log_matrix_checkbox = new QCheckBox(centralWidget);
+        log_matrix_checkbox->setObjectName(QString::fromUtf8("log_matrix_checkbox"));
+        log_matrix_checkbox->setGeometry(QRect(300, 10, 131, 19));
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -110,6 +115,7 @@ public:
         reset_button->setText(QApplication::translate("MainWindow", "Reset", nullptr));
         train_button->setText(QApplication::translate("MainWindow", "Train NN", nullptr));
         test_button->setText(QApplication::translate("MainWindow", "Test NN", nullptr));
+        log_matrix_checkbox->setText(QApplication::translate("MainWindow", "Log Program", nullptr));
     } // retranslateUi
 
 };
