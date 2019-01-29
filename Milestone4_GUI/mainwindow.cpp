@@ -368,8 +368,12 @@ void MainWindow::visualizate()
     int r_factor = r / 10;
 
     for(int i = 0; i < 10; i++) {
+        //No pen for no outline of ellipse
+        painter.setPen(Qt::NoPen);
         painter.setBrush(QColor(r-r_factor,g-15*i,b-15*i,255));
         painter.drawEllipse(QPointF(vertical_middle, vertical_factor*(i+1)), circle_factor, circle_factor);
+        //Reset Pen
+        painter.setPen(Qt::SolidLine);
         //Assign Number
         painter.drawStaticText(QPointF(vertical_middle-static_x_num, vertical_factor*(i+1)-static_y_num), QStaticText(QString::number(i)));
         //Assign Value
@@ -378,7 +382,7 @@ void MainWindow::visualizate()
     ui->output_canvas_label->setPixmap(pixmap);
 
     //Label for output as int
-    ui->output_label->setText("Probably a:");
+    ui->output_label->clear();
     QFont f( "Arial", 50, QFont::Bold);
     ui->output_label->setFont(f);
     ui->output_label->setAlignment(Qt::AlignCenter);

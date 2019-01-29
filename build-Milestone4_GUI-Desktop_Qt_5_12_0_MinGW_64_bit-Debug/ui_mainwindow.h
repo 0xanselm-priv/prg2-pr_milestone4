@@ -52,7 +52,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(548, 516);
+        MainWindow->resize(548, 505);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         canvas_label = new QLabel(centralWidget);
@@ -61,7 +61,7 @@ public:
         status_text = new QTextEdit(centralWidget);
         status_text->setObjectName(QString::fromUtf8("status_text"));
         status_text->setEnabled(true);
-        status_text->setGeometry(QRect(10, 320, 271, 101));
+        status_text->setGeometry(QRect(10, 340, 271, 101));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(300, 50, 121, 131));
@@ -94,7 +94,7 @@ public:
         log_matrix_checkbox->setGeometry(QRect(300, 10, 131, 19));
         groupBox_2 = new QGroupBox(centralWidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(440, 20, 91, 471));
+        groupBox_2->setGeometry(QRect(440, 10, 91, 471));
         output_canvas_label = new QLabel(groupBox_2);
         output_canvas_label->setObjectName(QString::fromUtf8("output_canvas_label"));
         output_canvas_label->setGeometry(QRect(0, 20, 81, 431));
