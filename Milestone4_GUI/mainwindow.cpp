@@ -308,7 +308,7 @@ void MainWindow::on_train_button_clicked()
     QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
-        net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
+        net.train_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
     }
 }
 
