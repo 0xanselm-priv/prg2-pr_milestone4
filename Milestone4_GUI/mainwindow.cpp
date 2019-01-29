@@ -306,8 +306,8 @@ void MainWindow::on_reset_button_clicked()
 void MainWindow::on_train_button_clicked()
 {
     QString filter = "Any File (*)";
-    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
-    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Choose Image File", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Choose Label File", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.train_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
@@ -328,8 +328,8 @@ void MainWindow::on_test_batch_button_clicked()
     //TO DO: Discuss return value
     //TO DO: Check for file validity
     QString filter = "Any File (*)";
-    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
-    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Choose Image File", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Choose Label File", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
@@ -354,7 +354,7 @@ void MainWindow::on_test_single_button_clicked()
 void MainWindow::visualizate()
 {
     //propagate and visualisate
-     qDebug() << net.propagate(this->input_matrix);
+     std::vector<float> result = net.propagate(this->input_matrix);
 
     QPixmap pixmap(ui->output_canvas_label->width(), ui->output_canvas_label->height());
     pixmap.fill(QColor("transparent"));
@@ -382,15 +382,18 @@ void MainWindow::visualizate()
         //Assign Number
         painter.drawStaticText(QPointF(vertical_middle-static_x_num, vertical_factor*(i+1)-static_y_num), QStaticText(QString::number(i)));
         //Assign Value
-        painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText("NaN"));
+        painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText(QString::number(result[i])));
     }
     ui->output_canvas_label->setPixmap(pixmap);
 
+    auto max_val = std::max_element(std::begin(result), std::end(result));
+    //qDebug() << *max_val;
+    int classifier_output = std::distance(std::begin(result), max_val);
 
     //Label for output as int
     ui->output_label->clear();
     QFont f( "Arial", 50, QFont::Bold);
     ui->output_label->setFont(f);
     ui->output_label->setAlignment(Qt::AlignCenter);
-    ui->output_label->setText("3");
+    ui->output_label->setText(QString::number(classifier_output));
 }
