@@ -41,13 +41,15 @@ public:
     QPushButton *test_single_button;
     QCheckBox *log_matrix_checkbox;
     QPushButton *test_batch_button;
+    QGroupBox *groupBox_2;
+    QLabel *output_canvas_label;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(430, 504);
+        MainWindow->resize(561, 504);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         canvas_label = new QLabel(centralWidget);
@@ -92,13 +94,19 @@ public:
         train_button->setGeometry(QRect(150, 450, 80, 21));
         test_single_button = new QPushButton(centralWidget);
         test_single_button->setObjectName(QString::fromUtf8("test_single_button"));
-        test_single_button->setGeometry(QRect(320, 410, 80, 21));
+        test_single_button->setGeometry(QRect(240, 420, 80, 21));
         log_matrix_checkbox = new QCheckBox(centralWidget);
         log_matrix_checkbox->setObjectName(QString::fromUtf8("log_matrix_checkbox"));
         log_matrix_checkbox->setGeometry(QRect(300, 10, 131, 19));
         test_batch_button = new QPushButton(centralWidget);
         test_batch_button->setObjectName(QString::fromUtf8("test_batch_button"));
-        test_batch_button->setGeometry(QRect(320, 440, 80, 21));
+        test_batch_button->setGeometry(QRect(240, 450, 80, 21));
+        groupBox_2 = new QGroupBox(centralWidget);
+        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
+        groupBox_2->setGeometry(QRect(440, 20, 91, 471));
+        output_canvas_label = new QLabel(groupBox_2);
+        output_canvas_label->setObjectName(QString::fromUtf8("output_canvas_label"));
+        output_canvas_label->setGeometry(QRect(0, 20, 81, 431));
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -121,6 +129,8 @@ public:
         test_single_button->setText(QApplication::translate("MainWindow", "Test Single NN", nullptr));
         log_matrix_checkbox->setText(QApplication::translate("MainWindow", "Log Program", nullptr));
         test_batch_button->setText(QApplication::translate("MainWindow", "Test Batch NN", nullptr));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Network Output:", nullptr));
+        output_canvas_label->setText(QString());
     } // retranslateUi
 
 };

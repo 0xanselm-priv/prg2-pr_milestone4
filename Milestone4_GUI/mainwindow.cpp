@@ -9,6 +9,7 @@
 #include <math.h>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QStaticText>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -155,7 +156,8 @@ void MainWindow::matrix_updater(std::pair<int, int> item)
     tile_map.clear();
 
     //propagate everything
-    qDebug() << net.propagate(input_matrix);
+    //qDebug() << net.propagate(input_matrix);
+    visualizate();
 }
 
 void MainWindow::assign_clicked_tile(std::pair<int, int> item)
@@ -298,38 +300,80 @@ void MainWindow::on_reset_button_clicked()
 
 void MainWindow::on_train_button_clicked()
 {
-    // Open file dialog
-    // train -> filepath
-    // training in progress . threading
-    // training done
-    // net.train_with_file(str filepath der bilder, str filepath der labels, int anzahl= variabel hier)
     QString filter = "Any File (*)";
     QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
     QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.train_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
+
+        std::string temp = __FUNCTION__;
+        temp.append("Images: ");
+        temp.append(file_name_images.toUtf8().constData());
+        temp.append("Labels: ");
+        temp.append(file_name_labels.toUtf8().constData());
+        temp.append("Amount: ");
+        temp.append(std::to_string(training_images_amount));
+        status_update(temp);
     }
 }
 
 void MainWindow::on_test_batch_button_clicked()
 {
-    //TO DO: How many Pictures should be put through trained net
     //TO DO: Discuss return value
+    //TO DO: Check for file validity
     QString filter = "Any File (*)";
     QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
     QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
+
+        std::string temp = __FUNCTION__;
+        temp.append("Images: ");
+        temp.append(file_name_images.toUtf8().constData());
+        temp.append("Labels: ");
+        temp.append(file_name_labels.toUtf8().constData());
+        temp.append("Amount: ");
+        temp.append(std::to_string(training_images_amount));
+        status_update(temp);
+
     }
 }
 
 void MainWindow::on_test_single_button_clicked()
 {
-    //TODO: Make sure to check input dim
-    //take image from canvas
-    //test input dim
-    //give values as
-    //net.propagte(meine coole matrix)
+    net.propagate(input_matrix);
+}
+
+void MainWindow::visualizate()
+{
+    //propagate and visualisate
+    //net.propagate(input_matrix);
+
+    QPixmap pixmap(ui->output_canvas_label->width(), ui->output_canvas_label->height());
+    pixmap.fill(QColor("transparent"));
+    QPainter painter (&pixmap);
+
+    int circle_factor = 15; // diameter adapt to the value of output vector
+    int vertical_factor = 40;
+    int vertical_middle =  ui->output_canvas_label->width() / 2; //ui->canvas_label->pos().x() +
+    int static_x_num = +15;
+    int static_y_num = +5;
+    int static_x_value = -5;
+    int static_y_value = -5;
+    int r = 209;
+    int g = 204;
+    int b = 255;
+    int r_factor = r / 10;
+
+    for(int i = 0; i < 10; i++) {
+        painter.setBrush(QColor(r-r_factor,g-15*i,b-15*i,255));
+        painter.drawEllipse(QPointF(vertical_middle, vertical_factor*(i+1)), circle_factor, circle_factor);
+        //Assign Number
+        painter.drawStaticText(QPointF(vertical_middle-static_x_num, vertical_factor*(i+1)-static_y_num), QStaticText(QString::number(i)));
+        //Assign Value
+        painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText("NaN"));
+    }
+    ui->output_canvas_label->setPixmap(pixmap);
 }

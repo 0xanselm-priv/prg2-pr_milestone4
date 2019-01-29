@@ -30,6 +30,8 @@ private slots:
 
     void on_test_single_button_clicked();
 
+    void visualizate();
+
 private:
     int init;
     int factor_width;
