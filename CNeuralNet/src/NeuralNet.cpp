@@ -449,7 +449,6 @@ int NeuralNet::test_with_file(string filepath_img, string filepath_labels, int i
 
 vector <float> NeuralNet::propagate(vector<vector<float> > inp) {
     vector<double> input = matrix2vector(inp);
-
     Vector vec_inp(784, 0);
     for (int y = 0; y < 784; y++) {
         vec_inp[y] = input[y];

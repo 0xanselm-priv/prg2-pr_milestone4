@@ -40,7 +40,8 @@ private:
     std::vector< std::vector<float> > input_matrix;
     std::vector< std::vector<float> > scaled_input_matrix;
     std::map<int, int> tile_map;
-    NeuralNet net;
+
+    NeuralNet net = NeuralNet({784,64,10});
 
     Ui::MainWindow *ui;
     void status_update(std::string status);

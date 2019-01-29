@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->width->setValue(28);
     ui->width->setMaximum(50);
 
+
+
     status_update("Painting factor x: " + std::to_string(factor_width)+ " y: " + std::to_string(factor_height));
     factor_width = 20;
     factor_height = factor_width;
@@ -46,10 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     is_trained = 0;
 
-    NeuralNet net({784,64,10});
-    net.eta = 0.3;
-    net.toggle_adaptive_learning = true;
-    net.setActivationFunction(&logistic, &logistic_derived);
+
 
     //Important to keep at end of constructor.
     //Variable to show that all parts are loaded an programm is operational
@@ -57,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     emit ui->reset_button->click();
     init = 1;
     //emit ui->reset_button->click();
+
+    net.eta = 0.3;
+    net.toggle_adaptive_learning = true;
+    net.setActivationFunction(&logistic, &logistic_derived);
 }
 
 MainWindow::~MainWindow()
@@ -93,9 +96,9 @@ void MainWindow::print_matrix()
 void MainWindow::fill_matrix()
 {
     //testing purposes. Could be filled with random noise
-    for (int i = 0; i < input_matrix.size(); i++){
-        for (int j = 0; j < input_matrix[i].size(); j++) {
-            input_matrix[i][j] = j;
+    for (int i = 0; i < this->input_matrix.size(); i++){
+        for (int j = 0; j < this->input_matrix[i].size(); j++) {
+            input_matrix[i][j] = 0.0;
         }
     }
 }
@@ -260,7 +263,8 @@ void MainWindow::on_height_valueChanged(int arg1)
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
-        this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value()));
+        this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value(),0));
+        this->fill_matrix();
         if (ui->log_matrix_checkbox->isChecked()) {
             this->print_matrix();
         }
@@ -276,7 +280,8 @@ void MainWindow::on_width_valueChanged(int arg1)
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
-        this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value()));
+        this->input_matrix.resize(ui->height->value(), std::vector<float> (ui->width->value(),0));
+        this->fill_matrix();
         if (ui->log_matrix_checkbox->isChecked()) {
             this->print_matrix();
         }
@@ -343,13 +348,13 @@ void MainWindow::on_test_batch_button_clicked()
 
 void MainWindow::on_test_single_button_clicked()
 {
-    net.propagate(input_matrix);
+    net.propagate(this->input_matrix);
 }
 
 void MainWindow::visualizate()
 {
     //propagate and visualisate
-    //net.propagate(input_matrix);
+     qDebug() << net.propagate(this->input_matrix);
 
     QPixmap pixmap(ui->output_canvas_label->width(), ui->output_canvas_label->height());
     pixmap.fill(QColor("transparent"));
@@ -380,6 +385,7 @@ void MainWindow::visualizate()
         painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText("NaN"));
     }
     ui->output_canvas_label->setPixmap(pixmap);
+
 
     //Label for output as int
     ui->output_label->clear();
