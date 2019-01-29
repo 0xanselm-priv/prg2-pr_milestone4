@@ -7,6 +7,8 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <math.h>
+#include <QFileDialog>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,6 +44,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->log_matrix_checkbox->setCheckState(Qt::CheckState::Unchecked);
 
     is_trained = 0;
+
+    NeuralNet net({784,64,10});
+    net.eta = 0.3;
+    net.toggle_adaptive_learning = true;
+    net.setActivationFunction(&logistic, &logistic_derived);
 
     //Important to keep at end of constructor.
     //Variable to show that all parts are loaded an programm is operational
@@ -146,6 +153,9 @@ void MainWindow::matrix_updater(std::pair<int, int> item)
         repaint_canvas();
     }
     tile_map.clear();
+
+    //propagate everything
+    qDebug() << net.propagate(input_matrix);
 }
 
 void MainWindow::assign_clicked_tile(std::pair<int, int> item)
@@ -219,25 +229,25 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 {
-        QString x_str = QString::number(ev->x());
-        QString y_str = QString::number(ev->y());
-        int x = x_str.toInt();
-        int y = y_str.toInt();
-        if (ui->canvas_label->geometry().contains(ev->pos())) {
-            int tile_width = std::floor(x / factor_width);
-            int tile_height = std::floor(y / factor_height);
-            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
-            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+    QString x_str = QString::number(ev->x());
+    QString y_str = QString::number(ev->y());
+    int x = x_str.toInt();
+    int y = y_str.toInt();
+    if (ui->canvas_label->geometry().contains(ev->pos())) {
+        int tile_width = std::floor(x / factor_width);
+        int tile_height = std::floor(y / factor_height);
+        int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
+        int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
 
-            if (ui->log_matrix_checkbox->isChecked()) {
-                std::string temp = __FUNCTION__;
-                temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
-                status_update(temp);
-            }
-
-            //assign clicked tile to matrix
-            assign_clicked_tile(std::make_pair(tile_width, tile_height));
+        if (ui->log_matrix_checkbox->isChecked()) {
+            std::string temp = __FUNCTION__;
+            temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
+            status_update(temp);
         }
+
+        //assign clicked tile to matrix
+        assign_clicked_tile(std::make_pair(tile_width, tile_height));
+    }
 }
 
 
@@ -273,14 +283,6 @@ void MainWindow::on_width_valueChanged(int arg1)
     }
 }
 
-void MainWindow::on_test_button_clicked()
-{
-    //TODO: Make sure to check input dim
-    //take image from canvas
-    //test input dim
-    //give values as
-}
-
 void MainWindow::on_reset_button_clicked()
 {
     init = 0;
@@ -300,9 +302,34 @@ void MainWindow::on_train_button_clicked()
     // train -> filepath
     // training in progress . threading
     // training done
+    // net.train_with_file(str filepath der bilder, str filepath der labels, int anzahl= variabel hier)
+    QString filter = "Any File (*)";
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
+    if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
+        net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
+    }
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_test_batch_button_clicked()
 {
-    // file open dialog
+    //TO DO: How many Pictures should be put through trained net
+    //TO DO: Discuss return value
+    QString filter = "Any File (*)";
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
+    if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
+        net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
+    }
+}
+
+void MainWindow::on_test_single_button_clicked()
+{
+    //TODO: Make sure to check input dim
+    //take image from canvas
+    //test input dim
+    //give values as
+    //net.propagte(meine coole matrix)
 }

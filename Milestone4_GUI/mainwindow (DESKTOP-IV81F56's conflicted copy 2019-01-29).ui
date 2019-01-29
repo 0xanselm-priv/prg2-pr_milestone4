@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>504</height>
+    <height>396</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>281</width>
-      <height>301</height>
+      <width>221</width>
+      <height>261</height>
      </rect>
     </property>
     <property name="text">
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>270</y>
       <width>211</width>
       <height>101</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>50</y>
+      <x>230</x>
+      <y>20</y>
       <width>121</width>
       <height>131</height>
      </rect>
@@ -74,71 +74,6 @@
       <widget class="QSpinBox" name="width"/>
      </item>
     </layout>
-   </widget>
-   <widget class="QPushButton" name="reset_button">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Reset</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="train_button">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>450</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Train NN</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="test_single_button">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>410</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test Single NN</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="log_matrix_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>10</y>
-      <width>131</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Log Program</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="test_batch_button">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>440</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test Batch NN</string>
-    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

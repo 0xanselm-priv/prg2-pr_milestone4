@@ -26,7 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    ../CNeuralNet/src/NeuralNet.cpp \
+    ../CNeuralNet/src/SigmoidFunctions.cpp \
+    ../CNeuralNet/src/LinearAlgebra/Factory.cpp \
+    ../CNeuralNet/src/LinearAlgebra/Matrix.cpp \
+    ../CNeuralNet/src/LinearAlgebra/Vector.cpp
 
 HEADERS += \
         mainwindow.h

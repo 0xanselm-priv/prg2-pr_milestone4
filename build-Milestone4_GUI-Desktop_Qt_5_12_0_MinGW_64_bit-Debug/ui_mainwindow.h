@@ -38,9 +38,9 @@ public:
     QSpinBox *width;
     QPushButton *reset_button;
     QPushButton *train_button;
-    QPushButton *test_button;
+    QPushButton *test_single_button;
     QCheckBox *log_matrix_checkbox;
-    QPushButton *pushButton;
+    QPushButton *test_batch_button;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -90,15 +90,15 @@ public:
         train_button = new QPushButton(centralWidget);
         train_button->setObjectName(QString::fromUtf8("train_button"));
         train_button->setGeometry(QRect(150, 450, 80, 21));
-        test_button = new QPushButton(centralWidget);
-        test_button->setObjectName(QString::fromUtf8("test_button"));
-        test_button->setGeometry(QRect(320, 410, 80, 21));
+        test_single_button = new QPushButton(centralWidget);
+        test_single_button->setObjectName(QString::fromUtf8("test_single_button"));
+        test_single_button->setGeometry(QRect(320, 410, 80, 21));
         log_matrix_checkbox = new QCheckBox(centralWidget);
         log_matrix_checkbox->setObjectName(QString::fromUtf8("log_matrix_checkbox"));
         log_matrix_checkbox->setGeometry(QRect(300, 10, 131, 19));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(320, 440, 80, 21));
+        test_batch_button = new QPushButton(centralWidget);
+        test_batch_button->setObjectName(QString::fromUtf8("test_batch_button"));
+        test_batch_button->setGeometry(QRect(320, 440, 80, 21));
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -118,9 +118,9 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "n Dimension:", nullptr));
         reset_button->setText(QApplication::translate("MainWindow", "Reset", nullptr));
         train_button->setText(QApplication::translate("MainWindow", "Train NN", nullptr));
-        test_button->setText(QApplication::translate("MainWindow", "Test Single NN", nullptr));
+        test_single_button->setText(QApplication::translate("MainWindow", "Test Single NN", nullptr));
         log_matrix_checkbox->setText(QApplication::translate("MainWindow", "Log Program", nullptr));
-        pushButton->setText(QApplication::translate("MainWindow", "Test Batch NN", nullptr));
+        test_batch_button->setText(QApplication::translate("MainWindow", "Test Batch NN", nullptr));
     } // retranslateUi
 
 };
