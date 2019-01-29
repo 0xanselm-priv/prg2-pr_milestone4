@@ -291,6 +291,7 @@ void NeuralNet::train_batch(vector<vector<double> > inputs, vector<double> label
 
 void NeuralNet::train_stochastic(vector<vector<double> > inputs, vector<double> labels, int i) {
     for (int j = 0; j < i; j++) {
+        cout << "Training Image " << j << endl;
         Vector inp(784, 0);
         for (int y = 0; y < 784; y++) {
             inp[y] = inputs[j][y];
@@ -305,6 +306,8 @@ void NeuralNet::train_stochastic(vector<vector<double> > inputs, vector<double> 
         //cout << labels[j] << endl;
         //cout << target << endl;
     }
+
+    cout << "DONE <--------" << endl;
 }
 
 void NeuralNet::test(vector<vector<double> > inputs, vector<double> labels, int i) {
@@ -399,7 +402,7 @@ void NeuralNet::read_Mnist_Label(string filename, vector<double> &vec) {
         for (int i = 0; i < number_of_images; ++i) {
             unsigned char temp = 0;
             file.read((char *) &temp, sizeof(temp));
-            vec[i] = (double) temp;
+            vec.push_back((double) temp);
         }
     }
 }
@@ -412,29 +415,32 @@ int NeuralNet::train_with_file(string filepath_img, string filepath_labels, int 
     cout << train_img[0].size() << endl;
 
 
-    int number_of_images1 = i;
 
     //read MNIST label into double vector
-    vector<double> train_lables(number_of_images1);
+    vector<double> train_lables;
     read_Mnist_Label(filepath_labels, train_lables);
     cout << train_lables.size() << endl;
 
     this->train_stochastic(train_img, train_lables, i);
 
+
     return 0;
 }
 
 int NeuralNet::test_with_file(string filepath_img, string filepath_labels, int i) {
+
+    cout << "STARTING to TEST " << endl;
+
     vector<vector<double> > test_img;
     read_Mnist(filepath_img, test_img);
     cout << test_img.size() << endl;
     cout << test_img[0].size() << endl;
 
+    cout << "STARTING to TEST 2" << endl;
 
-    int number_of_images1_test = i;
 
     //read MNIST label into double vector
-    vector<double> test_lables(number_of_images1_test);
+    vector<double> test_lables;
     read_Mnist_Label(filepath_labels, test_lables);
     cout << test_lables.size() << endl;
 

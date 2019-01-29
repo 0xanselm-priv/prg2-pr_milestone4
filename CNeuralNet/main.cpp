@@ -28,7 +28,9 @@ int main(int argc, char *argv[]) {
 
     nn.setActivationFunction(&logistic,&logistic_derived);
 
-
+    nn.train_with_file("/Users/nielsheissel/Downloads/CNeuralNet/mnist/train-images-idx3-ubyte", "/Users/nielsheissel/Downloads/CNeuralNet/mnist/train-labels-idx1-ubyte", 50000);
+    cout << "training done" << endl;
+    nn.test_with_file("/Users/nielsheissel/Downloads/CNeuralNet/mnist/t10k-images-idx3-ubyte", "/Users/nielsheissel/Downloads/CNeuralNet/mnist/t10k-labels-idx1-ubyte", 5000);
 
     return 0;
 }
