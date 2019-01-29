@@ -376,4 +376,11 @@ void MainWindow::visualizate()
         painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText("NaN"));
     }
     ui->output_canvas_label->setPixmap(pixmap);
+
+    //Label for output as int
+    ui->output_label->setText("Probably a:");
+    QFont f( "Arial", 50, QFont::Bold);
+    ui->output_label->setFont(f);
+    ui->output_label->setAlignment(Qt::AlignCenter);
+    ui->output_label->setText("3");
 }

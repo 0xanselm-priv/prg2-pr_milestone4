@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
-    <height>504</height>
+    <width>548</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
      <rect>
       <x>10</x>
       <y>320</y>
-      <width>211</width>
+      <width>271</width>
       <height>101</height>
      </rect>
     </property>
@@ -75,45 +75,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="reset_button">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Reset</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="train_button">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>450</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Train NN</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="test_single_button">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>420</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test Single NN</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="log_matrix_checkbox">
     <property name="geometry">
      <rect>
@@ -125,19 +86,6 @@
     </property>
     <property name="text">
      <string>Log Program</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="test_batch_button">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>450</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test Batch NN</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
@@ -165,6 +113,62 @@
       <string/>
      </property>
     </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>200</y>
+      <width>121</width>
+      <height>143</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Controls:</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="reset_button">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="train_button">
+       <property name="text">
+        <string>Train NN</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test_single_button">
+       <property name="text">
+        <string>Test Single NN</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test_batch_button">
+       <property name="text">
+        <string>Test Batch NN</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="output_label">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>360</y>
+      <width>121</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
