@@ -218,8 +218,10 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         if (ui->canvas_label->geometry().contains(ev->pos())) {
             int tile_width = std::floor(x / factor_width);
             int tile_height = std::floor(y / factor_height);
-            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
-            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+            //            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
+            //            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+            int tile_n_max = input_matrix[0].size()-1;
+            int tile_m_max = input_matrix.size()-1;
 
             if (ui->log_matrix_checkbox->isChecked()) {
                 std::string temp = __FUNCTION__;
@@ -260,6 +262,8 @@ void MainWindow::on_height_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
     //TO DO: Find the sizing error.
+    factor_width = 20;
+    factor_height = factor_width;
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -269,7 +273,7 @@ void MainWindow::on_height_valueChanged(int arg1)
             this->print_matrix();
         }
         repaint_canvas();
-        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
+        ui->canvas_label->resize(10 * input_matrix.size(), 10 * input_matrix[0].size());
     }
 }
 
@@ -277,6 +281,8 @@ void MainWindow::on_width_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
     //TO DO: Find the sizing error.
+    factor_width = 20;
+    factor_height = factor_width;
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -286,7 +292,7 @@ void MainWindow::on_width_valueChanged(int arg1)
             this->print_matrix();
         }
         repaint_canvas();
-        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
+        ui->canvas_label->resize(10 * input_matrix.size(), 10 * input_matrix[0].size());
     }
 }
 
@@ -301,13 +307,14 @@ void MainWindow::on_reset_button_clicked()
     init = 1;
     this->on_height_valueChanged(0);
     this->on_width_valueChanged(0);
+    ui->output_label->setText("");
 }
 
 void MainWindow::on_train_button_clicked()
 {
     QString filter = "Any File (*)";
-    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
-    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Choose Image File", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Choose Label File", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.train_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
@@ -328,8 +335,8 @@ void MainWindow::on_test_batch_button_clicked()
     //TO DO: Discuss return value
     //TO DO: Check for file validity
     QString filter = "Any File (*)";
-    QString file_name_images = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
-    QString file_name_labels = QFileDialog::getOpenFileName(this, "Open file", "../", filter);
+    QString file_name_images = QFileDialog::getOpenFileName(this, "Choose Image File", "../", filter);
+    QString file_name_labels = QFileDialog::getOpenFileName(this, "Choose Label File", "../", filter);
     int training_images_amount = QInputDialog::getInt(this, "User Action", "Set amount of training images", 60000, 1, 60000, 100);
     if (!file_name_images.isEmpty() && !file_name_labels.isEmpty() && training_images_amount > 0) {
         net.test_with_file(file_name_images.toUtf8().constData(), file_name_labels.toUtf8().constData(), training_images_amount);
@@ -354,7 +361,7 @@ void MainWindow::on_test_single_button_clicked()
 void MainWindow::visualizate()
 {
     //propagate and visualisate
-     qDebug() << net.propagate(this->input_matrix);
+    std::vector<float> result = net.propagate(this->input_matrix);
 
     QPixmap pixmap(ui->output_canvas_label->width(), ui->output_canvas_label->height());
     pixmap.fill(QColor("transparent"));
@@ -373,6 +380,7 @@ void MainWindow::visualizate()
     int r_factor = r / 10;
 
     for(int i = 0; i < 10; i++) {
+        qDebug() << i;
         //No pen for no outline of ellipse
         painter.setPen(Qt::NoPen);
         painter.setBrush(QColor(r-r_factor,g-15*i,b-15*i,255));
@@ -382,15 +390,18 @@ void MainWindow::visualizate()
         //Assign Number
         painter.drawStaticText(QPointF(vertical_middle-static_x_num, vertical_factor*(i+1)-static_y_num), QStaticText(QString::number(i)));
         //Assign Value
-        painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText("NaN"));
+        painter.drawStaticText(QPointF(vertical_middle, vertical_factor*(i+1)), QStaticText(QString::number(result[i])));
     }
     ui->output_canvas_label->setPixmap(pixmap);
 
+    auto max_val = std::max_element(std::begin(result), std::end(result));
+    //qDebug() << *max_val;
+    int classifier_output = std::distance(std::begin(result), max_val);
 
     //Label for output as int
     ui->output_label->clear();
     QFont f( "Arial", 50, QFont::Bold);
     ui->output_label->setFont(f);
     ui->output_label->setAlignment(Qt::AlignCenter);
-    ui->output_label->setText("3");
+    ui->output_label->setText(QString::number(classifier_output));
 }
