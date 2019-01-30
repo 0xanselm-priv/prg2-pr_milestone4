@@ -56,7 +56,7 @@ public:
 
     void train_stochastic(vector< vector < double> > inputs, vector< double > labels, int);
 
-    void test(vector< vector < double> > inputs, vector< double > labels, int);
+    float test(vector< vector < double> > inputs, vector< double > labels, int);
 
     void toCAProjectFile(std::string filename);
 

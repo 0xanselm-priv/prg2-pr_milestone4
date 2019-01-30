@@ -304,7 +304,7 @@ void NeuralNet::train_stochastic(vector<vector<double> > inputs, vector<double> 
     cout << "DONE <--------" << endl;
 }
 
-void NeuralNet::test(vector<vector<double> > inputs, vector<double> labels, int i) {
+float NeuralNet::test(vector<vector<double> > inputs, vector<double> labels, int i) {
     int errors = 0;
     for (int j = 0; j < i; j++) {
         Vector inp(784, 0);
@@ -326,6 +326,8 @@ void NeuralNet::test(vector<vector<double> > inputs, vector<double> labels, int 
     }
 
     cout << endl << endl << "Total errors: " << errors << endl;
+
+    return errors/i;
 }
 
 
