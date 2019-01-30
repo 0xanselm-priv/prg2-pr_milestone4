@@ -425,7 +425,7 @@ int NeuralNet::train_with_file(string filepath_img, string filepath_labels, int 
     return 0;
 }
 
-int NeuralNet::test_with_file(string filepath_img, string filepath_labels, int i) {
+float NeuralNet::test_with_file(string filepath_img, string filepath_labels, int i) {
 
     cout << "STARTING to TEST " << endl;
 
@@ -442,7 +442,7 @@ int NeuralNet::test_with_file(string filepath_img, string filepath_labels, int i
     read_Mnist_Label(filepath_labels, test_lables);
     cout << test_lables.size() << endl;
 
-    this->test(test_img, test_lables, i);
+    return this->test(test_img, test_lables, i);
 }
 
 vector <float> NeuralNet::propagate(vector<vector<float> > inp) {

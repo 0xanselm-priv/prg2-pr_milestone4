@@ -67,7 +67,7 @@ public:
     void display_summary();
 
     int train_with_file(string filepath_img, string filepath_labels,int i);
-    int test_with_file(string filepath_img, string filepath_labels, int i);
+    float test_with_file(string filepath_img, string filepath_labels, int i);
 
     vector <float> propagate(vector< vector <float> >);
 
