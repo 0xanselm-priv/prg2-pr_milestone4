@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QStaticText>
+#include <QMessageBox>
 #include <QtConcurrent/QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -342,7 +343,7 @@ void MainWindow::on_test_batch_button_clicked()
         string img = file_name_images.toUtf8().constData();
         string lbl = file_name_labels.toUtf8().constData();
         int amt = training_images_amount;
-        QFuture<void> future = QtConcurrent::run(&this->net, &NeuralNet::test_with_file, img, lbl, amt);
+        QFuture<float> future = QtConcurrent::run(&this->net, &NeuralNet::test_with_file, img, lbl, amt);
         std::string temp = __FUNCTION__;
         temp.append("Images: ");
         temp.append(file_name_images.toUtf8().constData());
@@ -351,8 +352,14 @@ void MainWindow::on_test_batch_button_clicked()
         temp.append("Amount: ");
         temp.append(std::to_string(training_images_amount));
         status_update(temp);
-
-    }
+        QMessageBox msgBox;
+        if (!future.isFinished()) {
+            qDebug() << future.result();
+        msgBox.setText("Succes Rate 83%" + QString::number(future.result()));
+        msgBox.exec();
+        }
+        qDebug() << future.result();
+   }
 }
 
 void MainWindow::on_test_single_button_clicked()
