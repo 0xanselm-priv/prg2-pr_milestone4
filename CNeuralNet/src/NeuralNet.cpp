@@ -166,15 +166,9 @@ void NeuralNet::training(Vector input, Vector target) {
     if (this->toggle_adaptive_learning && this->iteration % 500 == 0) {
         this->error /= 500;
         if (this->error - prevError > this->comperator) {
-            this->eta *= this->factor_down;
-            if (this->eta < 0.01) {
-                this->eta = 0.01;
-            }
-        } else {
             this->eta *= this->factor_up;
-            if (this->eta > 4.0) {
-                this->eta = 4.0;
-            }
+        } else {
+            this->eta = max(this->eta*this->factor_down, 0.01);
         }
         this->prevError = this->error;
         this->error = 0.0;
@@ -413,6 +407,8 @@ int NeuralNet::train_with_file(string filepath_img, string filepath_labels, int 
     read_Mnist(filepath_img, train_img);
     cout << train_img.size() << endl;
     cout << train_img[0].size() << endl;
+
+
 
 
 

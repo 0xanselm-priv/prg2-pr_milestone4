@@ -1,9 +1,11 @@
 //
 // Created by Parnet on 19.12.2018.
 //
-
+#include <iostream>
 #include "SigmoidFunctions.h"
 #include <cmath>
+
+using namespace std;
 
 double logistic(double x){
     return 1.0 / (1.0+exp(-x));

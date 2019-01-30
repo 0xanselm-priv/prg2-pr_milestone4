@@ -30,9 +30,9 @@ public:
     bool toggle_traegheit = false;
     bool toggle_adaptive_learning = false;
 
-    double factor_up = 2.0;
-    double factor_down = 0.01;
-    double comperator = 0.002;
+    double factor_up = 1.05;
+    double factor_down = 0.5;
+    double comperator = 0.01;
 
     std::vector<Matrix> weights;
     NeuralNet() = default;
