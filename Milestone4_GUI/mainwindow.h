@@ -36,7 +36,9 @@ private:
     int init;
     int factor_width;
     int factor_height;
-    int is_trained;
+    int canvas_height;
+    int canvas_width;
+
     std::vector< std::vector<float> > input_matrix;
     std::vector< std::vector<float> > scaled_input_matrix;
     std::map<int, int> tile_map;
