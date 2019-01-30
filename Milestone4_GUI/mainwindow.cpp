@@ -85,7 +85,7 @@ void MainWindow::print_matrix()
         //fill_matrix();
         for (int i = 0; i < input_matrix.size(); i++){
             for (int j = 0; j < input_matrix[i].size(); j++) {
-                std::cout << "[" << input_matrix[i][j]<< "]";
+                std::cout << "[" << input_matrix[j][i]<< "]";
             }
             std::cout << "" << std::endl;
         }
@@ -188,7 +188,7 @@ void MainWindow::assign_clicked_tile(std::pair<int, int> item)
             input_matrix[tile_x-1][tile_y] = input_matrix[tile_x-1][tile_y] + 0.25;
         }
 
-        matrix_updater(std::make_pair(tile_y, tile_x));
+        matrix_updater(std::make_pair(tile_x, tile_y));
 
         if (ui->log_matrix_checkbox->isChecked()) {
             print_matrix();
@@ -211,18 +211,18 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         int x = x_str.toInt();
         int y = y_str.toInt();
         if (ui->canvas_label->geometry().contains(ev->pos())) {
-            int tile_width = std::floor(x / factor_width);
-            int tile_height = std::floor(y / factor_height);
+            int tile_x = std::floor(x / factor_width);
+            int tile_y = std::floor(y / factor_height);
             int tile_n_max = input_matrix[0].size();
             int tile_m_max = input_matrix.size();
 
             if (ui->log_matrix_checkbox->isChecked()) {
                 std::string temp = __FUNCTION__;
-                temp = temp.append("Matrix: [" + std::to_string(tile_height) + "][" + std::to_string(tile_width) + "]");
+                temp = temp.append("Matrix: [" + std::to_string(tile_x) + "][" + std::to_string(tile_y) + "]");
                 status_update(temp);
             }
             //assign clicked tile to matrix
-            assign_clicked_tile(std::make_pair(tile_width, tile_height));
+            assign_clicked_tile(std::make_pair(tile_x, tile_y));
         }
     }
 }

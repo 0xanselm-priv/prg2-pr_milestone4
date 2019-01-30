@@ -94,7 +94,7 @@ public:
         log_matrix_checkbox->setGeometry(QRect(300, 10, 131, 19));
         groupBox_2 = new QGroupBox(centralWidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(440, 10, 91, 471));
+        groupBox_2->setGeometry(QRect(440, 10, 91, 451));
         output_canvas_label = new QLabel(groupBox_2);
         output_canvas_label->setObjectName(QString::fromUtf8("output_canvas_label"));
         output_canvas_label->setGeometry(QRect(0, 20, 81, 431));
@@ -127,7 +127,7 @@ public:
 
         output_label = new QLabel(centralWidget);
         output_label->setObjectName(QString::fromUtf8("output_label"));
-        output_label->setGeometry(QRect(300, 360, 121, 121));
+        output_label->setGeometry(QRect(300, 340, 121, 121));
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
