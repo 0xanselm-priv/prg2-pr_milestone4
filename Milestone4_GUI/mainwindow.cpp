@@ -218,8 +218,10 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         if (ui->canvas_label->geometry().contains(ev->pos())) {
             int tile_width = std::floor(x / factor_width);
             int tile_height = std::floor(y / factor_height);
-            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
-            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+            //            int tile_n_max = std::floor(ui->canvas_label->width() / factor_width);
+            //            int tile_m_max = std::floor(ui->canvas_label->height() / factor_height);
+            int tile_n_max = input_matrix[0].size()-1;
+            int tile_m_max = input_matrix.size()-1;
 
             if (ui->log_matrix_checkbox->isChecked()) {
                 std::string temp = __FUNCTION__;
@@ -260,6 +262,8 @@ void MainWindow::on_height_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
     //TO DO: Find the sizing error.
+    factor_width = 20;
+    factor_height = factor_width;
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -269,7 +273,7 @@ void MainWindow::on_height_valueChanged(int arg1)
             this->print_matrix();
         }
         repaint_canvas();
-        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
+        ui->canvas_label->resize(10 * input_matrix.size(), 10 * input_matrix[0].size());
     }
 }
 
@@ -277,6 +281,8 @@ void MainWindow::on_width_valueChanged(int arg1)
 {
     //TO DO repaint of canvas label
     //TO DO: Find the sizing error.
+    factor_width = 20;
+    factor_height = factor_width;
     if (init > 0) {
         std::string temp = __FUNCTION__;
         input_matrix.clear(); //essentially needed. if not cleared, major fuck up
@@ -286,7 +292,7 @@ void MainWindow::on_width_valueChanged(int arg1)
             this->print_matrix();
         }
         repaint_canvas();
-        ui->canvas_label->resize(factor_width * input_matrix.size(), factor_height * input_matrix[0].size());
+        ui->canvas_label->resize(10 * input_matrix.size(), 10 * input_matrix[0].size());
     }
 }
 
@@ -301,6 +307,7 @@ void MainWindow::on_reset_button_clicked()
     init = 1;
     this->on_height_valueChanged(0);
     this->on_width_valueChanged(0);
+    ui->output_label->setText("");
 }
 
 void MainWindow::on_train_button_clicked()
@@ -354,7 +361,7 @@ void MainWindow::on_test_single_button_clicked()
 void MainWindow::visualizate()
 {
     //propagate and visualisate
-     std::vector<float> result = net.propagate(this->input_matrix);
+    std::vector<float> result = net.propagate(this->input_matrix);
 
     QPixmap pixmap(ui->output_canvas_label->width(), ui->output_canvas_label->height());
     pixmap.fill(QColor("transparent"));
@@ -373,6 +380,7 @@ void MainWindow::visualizate()
     int r_factor = r / 10;
 
     for(int i = 0; i < 10; i++) {
+        qDebug() << i;
         //No pen for no outline of ellipse
         painter.setPen(Qt::NoPen);
         painter.setBrush(QColor(r-r_factor,g-15*i,b-15*i,255));
